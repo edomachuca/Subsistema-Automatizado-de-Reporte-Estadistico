@@ -29,10 +29,10 @@ public abstract class Calculos extends GestorDatos {
     public Calculos(GestorDatos g) {
         gDatos = g;
         datos = new String[7][2];
-        if ((int) Math.sqrt(gDatos.Filtro().size()) > 15) {
+        if (1+ (int)(1.33*Math.log(gDatos.Filtro().size())) > 15) {
             k = 15;
         } else {
-            k = (int) Math.sqrt(gDatos.Filtro().size());
+            k = 1+ (int)(1.33*Math.log(gDatos.Filtro().size()));
         }
         histograma = new String[k][gDatos.Filtro().size()];
         tabla = new String[k + 1][9];
@@ -49,10 +49,35 @@ public abstract class Calculos extends GestorDatos {
     }
 
     protected void Moda() {
-        Moda = (double)gDatos.Filtro().size();
-
+        int mayor=0;
+        int lugar=0;
+        for(int i=0;i<gDatos.Filtro().size()-1;i++){
+            int count=0;
+            while(Get(gDatos.Filtro(),i)-Get(gDatos.Filtro(),i+1)<Math.pow(10, -6)){
+                count++;
+                i++;
+            }
+            if(mayor<count){
+                lugar=i;
+                mayor=count;
+            }  
+        }
+        if(mayor==1){
+            Moda=-1;
+        }else{
+            Moda=Get(gDatos.Filtro(),lugar);
+        }
         datos[3][1] = Moda + "";
-        MediaT = 0;
+    }
+    
+    protected void MediaT(){
+        int Tot=gDatos.Filtro().size();
+        int margen=(int)(Tot*0.05);
+        int suma=0;
+        for(int i=margen;i<Tot-margen;i++){
+            suma+=Get(gDatos.Filtro(),i);
+        }        
+        MediaT = suma/(Tot-2*margen);
         datos[6][1] = MediaT + "";
     }
 
