@@ -10,6 +10,8 @@ package listas;
  * @author BSOD
  */
 
+//ESTA CLASE PUEDE SER BORRADA
+
 import java.util.Date;
 import proyectobanco.Fecha;
 
